@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>LabelService - Soluzioni di Etichettatura d'Avanguardia </title>
+   
+   <!-- Tailwind CSdfS -->
+   <script src="https://cdn.tailwindcss.com"></script>
+   
+   <!-- Google Fonts: Poppins -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+   <script>
+       // Configurazione custom di Tailwind
+       tailwind.config = {
+           theme: {
+               extend: {
+                   colors: {
+                       'brand-yellow': '#facc15',
+                       'brand-cyan': '#06b6d4',
+                       'brand-pink': '#ec4899',
+                       'brand-dark': '#090B11',
+                   }
+               }
+           }
+       }
+   </script>
+
+   <style>
+       /* --- Stili Globali e Animazioni --- */
+       html, body {
+           width: 100%;
+           overflow-x: hidden;
+       }
+       html {
+           scroll-behavior: smooth;
+       }
+       body {
+           font-family: 'Poppins', sans-serif;
+           background-color: #090B11;
+           color: #f3f4f6;
+       }
+
+       /* Effetto Aurora di Sfondo */
+       body::before {
+           content: '';
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+           pointer-events: none;
+           background: radial-gradient(circle at 15% 25%, rgba(6, 182, 212, 0.15), transparent 40%),
+                       radial-gradient(circle at 85% 75%, rgba(236, 72, 153, 0.15), transparent 40%);
+           animation: aurora-flow 20s infinite linear;
+       }
+
+       @keyframes aurora-flow {
+           0% { transform: rotate(0deg) scale(1.5); }
+           50% { transform: rotate(180deg) scale(1.6); }
+           100% { transform: rotate(360deg) scale(1.5); }
+       }
+
+       /* Header con Effetto Vetro Satinato */
+       header {
+           background-color: rgba(9, 11, 17, 0.5);
+           backdrop-filter: blur(12px);
+           -webkit-backdrop-filter: blur(12px);
+           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+       }
+       
+       /* Animazioni allo Scorrimento */
+       .scroll-animate {
+           opacity: 0;
+           transform: translateY(30px);
+           transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+       }
+       .scroll-animate.visible {
+           opacity: 1;
+           transform: translateY(0);
+       }
+
+       /* --- Slideshow & Ken Burns Effect --- */
+       .slide-wrapper {
+           position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+           overflow: hidden;
+       }
+       .slide {
+           position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+           object-fit: cover; object-position: center; opacity: 0;
+           transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+           z-index: 1; filter: brightness(0.5);
+           transform: scale(1.1); /* Inizia leggermente zoomato */
+       }
+       .slide.active {
+           opacity: 1; z-index: 2;
+           animation: ken-burns 10s infinite alternate;
+       }
+       
+       @keyframes ken-burns {
+           0% { transform: scale(1.1) translate(2%, 2%); }
+           100% { transform: scale(1.15) translate(-2%, -2%); }
+       }
+
+       /* --- Sipario (Invariato) --- */
+       .transition-curtain { position: absolute; inset: 0; z-index: 10; display: flex; pointer-events: none; }
+       .transition-curtain .curtain-half { width: 50%; height: 100%; background-color: #090B11; transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1); }
+       .transition-curtain .curtain-half.left { transform: translateX(-100%); }
+       .transition-curtain .curtain-half.right { transform: translateX(100%); }
+       .transition-curtain.closing .curtain-half { transform: translateX(0); }
+       @keyframes open-initial-curtain-left { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+       @keyframes open-initial-curtain-right { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
+       .initial-curtain-left { animation: open-initial-curtain-left 2s ease-out 0.5s forwards; }
+       .initial-curtain-right { animation: open-initial-curtain-right 2s ease-out 0.5s forwards; }
+
+       /* --- Stili Componenti Migliorati --- */
+       .section-title::after { content: ''; display: block; width: 80px; height: 4px; margin: 1rem auto 0; border-radius: 2px; background: linear-gradient(90deg, #facc15, #ec4899); }
+       .service-card { transition: transform 0.3s, box-shadow 0.3s; }
+       .service-card:hover { box-shadow: 0 0 30px -5px rgba(6, 182, 212, 0.3); }
+       .gallery-item { transition: transform 0.4s, opacity 0.4s, box-shadow 0.4s; }
+       .gallery-item.hidden { transform: scale(0.9); opacity: 0; pointer-events: none; position: absolute; }
+       .gallery-item:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10; }
+       .filter-btn.active { background-color: #facc15; color: #090B11; box-shadow: 0 0 15px rgba(250, 204, 21, 0.5); }
+       .btn-primary { transition: transform 0.3s, box-shadow 0.3s; }
+       .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(6, 182, 212, 0.6); }
+
+       /* --- Modale Catalogo (Invariato) --- */
+       #modal-backdrop { transition: opacity 0.3s ease-in-out; }
+       #modal-content { transition: transform 0.3s ease-in-out, opacity 0.3s; }
+       #modal.hidden #modal-content { transform: scale(0.95); opacity: 0; }
+   </style>
+</head>
+<body>
+
+   <div id="app-wrapper">
+       <div id="home" class="relative w-full h-screen">
+           <div class="slide-wrapper">
+               <img src="/carosello/car1.jpg" class="slide active" alt="Immagine slideshow 1">
+               <img src="/carosello/car4.jpg" class="slide" alt="Immagine slideshow 2">
+               <img src="/carosello/car3.jpg" class="slide" alt="Immagine slideshow 3">
+               <img src="/carosello/car2.gif" class="slide" alt="Immagine slideshow 4">
+           </div>
+           <div id="transition-curtain" class="transition-curtain"><div class="curtain-half left"></div><div class="curtain-half right"></div></div>
+           <div class="absolute inset-0 z-30 flex flex-col">
+               <header class="fixed top-0 left-0 right-0 z-40">
+                   <div class="container mx-auto flex justify-between items-center p-6">
+                       <a href="#home" class="nav-link"><img src="/1755156199200.png" alt="Logo LabelService" class="h-8 md:h-10 w-auto"></a>
+                       <nav class="hidden md:flex items-center space-x-6 text-lg">
+                           <a href="#about" class="nav-link hover:text-brand-yellow transition-colors duration-300">Chi Siamo</a>
+                           <a href="#services" class="nav-link hover:text-brand-yellow transition-colors duration-300">Servizi</a>
+                           <a href="#catalog" class="nav-link hover:text-brand-yellow transition-colors duration-300">Catalogo</a>
+                           <a href="#contact" class="nav-link btn-primary bg-brand-cyan text-white font-bold py-2 px-5 rounded-lg">Contattaci</a>
+                       </nav>
+                       <button id="mobile-menu-button" class="md:hidden text-3xl text-white z-50">
+                           <svg id="menu-open-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                           <svg id="menu-close-icon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                       </button>
+                   </div>
+               </header>
+               <main class="flex-grow flex items-center justify-center text-center">
+                   <div class="container mx-auto px-4">
+                       <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 text-white scroll-animate">Precisione. Colore. Innovazione.</h2>
+                       <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 scroll-animate" style="transition-delay: 150ms;">Soluzioni di etichettatura che lasciano il segno.</p>
+                       <a href="#catalog" class="nav-link mt-8 inline-block bg-brand-yellow text-brand-dark font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/30 scroll-animate" style="transition-delay: 300ms;">Sfoglia il Catalogo</a>
+                   </div>
+               </main>
+           </div>
+           <div id="initial-curtain" class="absolute inset-0 z-50 flex pointer-events-none"><div class="initial-curtain-left w-1/2 h-full bg-brand-dark"></div><div class="initial-curtain-right w-1/2 h-full bg-brand-dark"></div></div>
+       </div>
+
+       <main id="main-content">
+           <section id="about" class="py-20 md:py-32"><div class="container mx-auto px-6 text-center"><h2 class="section-title text-4xl font-bold mb-12 scroll-animate">La Nostra Missione</h2><p class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed scroll-animate">In LabelService, trasformiamo idee in identità indelebili. Nati dalla passione per la tecnologia e il design, forniamo soluzioni di marcatura e etichettatura all'avanguardia. La nostra missione è semplice: offrire precisione assoluta e un impatto visivo senza compromessi, aiutando i nostri clienti a distinguersi in un mercato affollato.</p></div></section>
+           <section id="services" class="py-20 md:py-32 bg-black bg-opacity-20"><div class="container mx-auto px-6 text-center"><h2 class="section-title text-4xl font-bold mb-16 scroll-animate">I Nostri Servizi</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+               <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate"><div class="mb-4 inline-block p-4 rounded-full bg-brand-cyan bg-opacity-10"><svg class="w-10 h-10 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg></div><h3 class="text-2xl font-bold mb-2">Marcatura Laser</h3><p class="text-gray-400">Precisione millimetrica su metallo, plastica e vetro.</p></div>
+               <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate" style="transition-delay: 100ms;"><div class="mb-4 inline-block p-4 rounded-full bg-brand-yellow bg-opacity-10"><svg class="w-10 h-10 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg></div><h3 class="text-2xl font-bold mb-2">Etichette Adesive</h3><p class="text-gray-400">Stampa digitale di alta qualità su supporti personalizzati.</p></div>
+               <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate" style="transition-delay: 200ms;"><div class="mb-4 inline-block p-4 rounded-full bg-brand-pink bg-opacity-10"><svg class="w-10 h-10 text-brand-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div><h3 class="text-2xl font-bold mb-2">Packaging Design</h3><p class="text-gray-400">Creiamo soluzioni di packaging che raccontano il tuo brand.</p></div>
+               <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate" style="transition-delay: 300ms;"><div class="mb-4 inline-block p-4 rounded-full bg-gray-500 bg-opacity-10"><svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3"></path></svg></div><h3 class="text-2xl font-bold mb-2">Consulenza</h3><p class="text-gray-400">Ti guidiamo nella scelta della tecnologia e dei materiali.</p></div>
+           </div></div></section>
+           <section id="contact" class="py-20 md:py-32 bg-black bg-opacity-20"><div class="container mx-auto px-6"><div class="text-center"><h2 class="section-title text-4xl font-bold mb-16 scroll-animate">Parliamo del tuo Progetto</h2></div><div class="max-w-3xl mx-auto scroll-animate"><form action="#" method="POST" class="space-y-6"><div><input type="text" name="name" placeholder="Il tuo nome" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan outline-none transition-all"></div><div><input type="email" name="email" placeholder="La tua email" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan outline-none transition-all"></div><div><textarea name="message" rows="6" placeholder="Come possiamo aiutarti?" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-brand-cyan focus:border-brand-cyan outline-none transition-all"></textarea></div><div class="text-center"><button type="submit" class="w-full md:w-auto btn-primary bg-brand-cyan text-white font-bold py-4 px-12 rounded-lg text-lg">Invia Messaggio</button></div></form></div></div></section>
+       </main>
+
+       <section id="catalog-page" class="hidden py-20 md:py-32">
+           <div class="container mx-auto px-6 text-center">
+               <h2 class="section-title text-4xl font-bold mb-12 scroll-animate">Il Nostro Catalogo</h2>
+               <div id="filters" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12 scroll-animate">
+                   <button class="filter-btn active py-2 px-4 rounded-lg border border-gray-600 transition-all duration-300" data-filter="all">Tutti</button>
+                   <button class="filter-btn py-2 px-4 rounded-lg border border-gray-600 transition-all duration-300 hover:bg-brand-pink hover:text-white" data-filter="beverage">Beverage</button>
+                   <button class="filter-btn py-2 px-4 rounded-lg border border-gray-600 transition-all duration-300 hover:bg-brand-cyan hover:text-white" data-filter="meccanica">Meccanica</button>
+                   <button class="filter-btn py-2 px-4 rounded-lg border border-gray-600 transition-all duration-300 hover:bg-brand-yellow hover:text-brand-dark" data-filter="cosmetica">Cosmetica</button>
+               </div>
+               <div id="gallery" class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                   <div class="gallery-item group" data-category="beverage" data-title="Etichetta Vino Pregiato" data-img="https://images.unsplash.com/photo-1617886322207-6f504e74722a?q=80&w=1200&auto=format&fit=crop" data-desc="Etichetta premium per una linea di vini di lusso, realizzata con stampa a caldo e dettagli in rilievo per un'esperienza tattile unica." data-specs="Materiale: Carta Cotone, Finitura: Stampa a caldo oro, Adesivo: Permanente per vetro">
+                       <img src="https://images.unsplash.com/photo-1617886322207-6f504e74722a?q=80&w=800&auto=format&fit=crop" alt="Etichetta su bottiglia di vino" class="w-full h-full object-cover rounded-lg"><div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><h3 class="text-xl font-bold text-white">Vedi Dettagli</h3></div></div>
+                   <div class="gallery-item group" data-category="meccanica" data-title="Marcatura Laser Componenti" data-img="https://images.unsplash.com/photo-1599643477891-554b03943d0f?q=80&w=1200&auto=format&fit=crop" data-desc="Marcatura laser ad alta precisione di codici seriali e QR code su componenti meccanici in acciaio. Garantisce tracciabilità e resistenza a oli e alte temperature." data-specs="Tecnologia: Laser a Fibra, Materiale: Acciaio Inox 316, Profondità: 0.02mm">
+                       <img src="https://images.unsplash.com/photo-1599643477891-554b03943d0f?q=80&w=800&auto=format&fit=crop" alt="Marcatura su componente metallico" class="w-full h-full object-cover rounded-lg"><div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><h3 class="text-xl font-bold text-white">Vedi Dettagli</h3></div></div>
+                   <div class="gallery-item group" data-category="cosmetica" data-title="Etichetta Crema Viso" data-img="https://images.unsplash.com/photo-1581092916323-55213c4a45b6?q=80&w=1200&auto=format&fit=crop" data-desc="Etichetta trasparente 'no-label look' per packaging di cosmetici. La stampa serigrafica bianca e rosa garantisce un design pulito ed elegante." data-specs="Materiale: PP Trasparente, Stampa: Serigrafica UV, Resistenza: Acqua e oli">
+                       <img src="https://images.unsplash.com/photo-1581092916323-55213c4a45b6?q=80&w=800&auto=format&fit=crop" alt="Etichetta su prodotto cosmetico" class="w-full h-full object-cover rounded-lg"><div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><h3 class="text-xl font-bold text-white">Vedi Dettagli</h3></div></div>
+               </div>
+               <div class="mt-20"><a href="#home" class="nav-link inline-block bg-brand-yellow hover:bg-opacity-80 text-brand-dark font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105">Torna alla Home</a></div>
+           </div>
+       </section>
+
+       <footer id="footer" class="bg-black py-8"><div class="container mx-auto px-6 text-center text-gray-400"><p>© 2024 LabelService. Tutti i diritti riservati.</p><p class="text-sm mt-2">Design & Sviluppo con Passione</p></div></footer>
+   </div>
+
+   <div id="mobile-menu" class="fixed inset-0 bg-brand-dark/90 backdrop-blur-lg z-40 flex-col items-center justify-center space-y-8 text-2xl text-white transform -translate-y-full transition-transform duration-500 ease-in-out md:hidden flex">
+       <a href="#about" class="nav-link hover:text-brand-yellow">Chi Siamo</a>
+       <a href="#services" class="nav-link hover:text-brand-yellow">Servizi</a>
+       <a href="#catalog" class="nav-link hover:text-brand-yellow">Catalogo</a>
+       <a href="#contact" class="nav-link bg-brand-cyan hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-lg mt-6">Contattaci</a>
+   </div>
+   
+   <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center hidden"><div id="modal-backdrop" class="absolute inset-0 bg-black bg-opacity-75"></div><div id="modal-content" class="relative bg-brand-dark rounded-lg shadow-xl w-11/12 md:w-3/4 lg:w-2/3 max-w-4xl m-4 transform opacity-0 scale-95"><button id="modal-close" class="absolute top-0 right-0 mt-4 mr-4 text-gray-400 hover:text-white text-3xl z-10">×</button><div class="md:flex"><div class="md:w-1/2"><img id="modal-img" src="" alt="Dettaglio progetto" class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none"></div><div class="p-6 md:p-8 md:w-1/2"><h3 id="modal-title" class="text-3xl font-bold mb-4 text-brand-yellow"></h3><p id="modal-desc" class="text-gray-300 mb-6"></p><h4 class="text-xl font-semibold mb-2">Specifiche Tecniche</h4><p id="modal-specs" class="text-gray-400 whitespace-pre-line"></p></div></div></div></div>
+
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           const app = {
+               // ... (DOM elements setup remains the same)
+               hero: document.getElementById('home'),
+               main: document.getElementById('main-content'),
+               catalog: document.getElementById('catalog-page'),
+               footer: document.getElementById('footer'),
+               mobileMenu: {
+                   panel: document.getElementById('mobile-menu'),
+                   button: document.getElementById('mobile-menu-button'),
+                   openIcon: document.getElementById('menu-open-icon'),
+                   closeIcon: document.getElementById('menu-close-icon')
+               },
+               slideshow: {
+                   slides: document.querySelectorAll('.slide'),
+                   curtain: document.getElementById('transition-curtain'),
+                   currentIndex: 0
+               },
+               catalogPage: {
+                   filterButtons: document.querySelectorAll('.filter-btn'),
+                   galleryItems: document.querySelectorAll('.gallery-item')
+               },
+               modal: {
+                   container: document.getElementById('modal'),
+                   backdrop: document.getElementById('modal-backdrop'),
+                   closeBtn: document.getElementById('modal-close'),
+                   img: document.getElementById('modal-img'),
+                   title: document.getElementById('modal-title'),
+                   desc: document.getElementById('modal-desc'),
+                   specs: document.getElementById('modal-specs')
+               },
+               navLinks: document.querySelectorAll('.nav-link')
+           };
+
+           // --- ANIMAZIONI ALLO SCORRIMENTO ---
+           const observer = new IntersectionObserver((entries) => {
+               entries.forEach(entry => {
+                   if (entry.isIntersecting) {
+                       entry.target.classList.add('visible');
+                       observer.unobserve(entry.target);
+                   }
+               });
+           }, { threshold: 0.1 });
+
+           document.querySelectorAll('.scroll-animate').forEach(el => {
+               observer.observe(el);
+           });
+
+           // --- GESTIONE SLIDESHOW ---
+           function startSlideshow() {
+               setInterval(() => {
+                   const { slides, curtain } = app.slideshow;
+                   let { currentIndex } = app.slideshow;
+                   const nextIndex = (currentIndex + 1) % slides.length;
+                   
+                   curtain.classList.add('closing');
+                   setTimeout(() => {
+                       slides[currentIndex].classList.remove('active');
+                       slides[nextIndex].classList.add('active');
+                       app.slideshow.currentIndex = nextIndex;
+                       curtain.classList.remove('closing');
+                   }, 1000);
+               }, 9000); // Intervallo leggermente più lungo per godersi l'effetto Ken Burns
+           }
+           setTimeout(startSlideshow, 2500);
+
+           // --- GESTIONE MENU MOBILEs...---
+           function toggleMobileMenu() {
+               const { panel, openIcon, closeIcon } = app.mobileMenu;
+               panel.classList.toggle('-translate-y-full');
+               openIcon.classList.toggle('hidden');
+               closeIcon.classList.toggle('hidden');
+           }
+           app.mobileMenu.button.addEventListener('click', toggleMobileMenu);
+
+           // --- GESTIONE NAVIGAZIONE PAGINE ---
+           function showPage(pageName) {
+               const isCatalog = pageName === 'catalog';
+               app.hero.style.display = isCatalog ? 'none' : 'block';
+               app.main.style.display = isCatalog ? 'none' : 'block';
+               app.footer.style.display = isCatalog ? 'none' : 'block';
+               app.catalog.style.display = isCatalog ? 'block' : 'none';
+               if (isCatalog) {
+                   document.querySelectorAll('#catalog-page .scroll-animate').forEach(el => observer.observe(el));
+               }
+           }
+
+           function handleNavigation(e) {
+               e.preventDefault();
+               const targetId = e.currentTarget.getAttribute('href').substring(1);
+
+               if (targetId === 'catalog') {
+                   showPage('catalog');
+                   window.scrollTo(0, 0);
+               } else {
+                   showPage('main');
+                   setTimeout(() => {
+                       const targetElement = document.getElementById(targetId);
+                       if(targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+                   }, 0);
+               }
+               if (!app.mobileMenu.panel.classList.contains('-translate-y-full')) {
+                   toggleMobileMenu();
+               }
+           }
+           app.navLinks.forEach(link => link.addEventListener('click', handleNavigation));
+           
+           // --- GESTIONE CATALOGO (FILTRI E MODALE) ---
+           app.catalogPage.filterButtons.forEach(button => {
+               button.addEventListener('click', () => {
+                   const filter = button.dataset.filter;
+                   app.catalogPage.filterButtons.forEach(btn => btn.classList.remove('active'));
+                   button.classList.add('active');
+
+                   app.catalogPage.galleryItems.forEach(item => {
+                       const matches = filter === 'all' || item.dataset.category === filter;
+                       item.classList.toggle('hidden', !matches);
+                   });
+               });
+           });
+
+           function openModal(item) {
+               const { modal } = app;
+               modal.img.src = item.dataset.img;
+               modal.title.textContent = item.dataset.title;
+               modal.desc.textContent = item.dataset.desc;
+               modal.specs.textContent = item.dataset.specs.replace(/, /g, '\n');
+               modal.container.classList.remove('hidden');
+           }
+
+           function closeModal() {
+               app.modal.container.classList.add('hidden');
+           }
+
+           app.catalogPage.galleryItems.forEach(item => {
+               item.addEventListener('click', () => openModal(item));
+           });
+
+           app.modal.closeBtn.addEventListener('click', closeModal);
+           app.modal.backdrop.addEventListener('click', closeModal);
+           document.addEventListener('keydown', (e) => {
+               if (e.key === 'Escape' && !app.modal.container.classList.contains('hidden')) {
+                   closeModal();
+               }
+           });
+       });
+   </script>
+
+</body>
+</html>
