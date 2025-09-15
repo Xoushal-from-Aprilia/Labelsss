@@ -72,8 +72,7 @@
            -webkit-backdrop-filter: blur(12px);
            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
        }
-       
-       /* Animazioni allo Scorrimento */
+        /* Animazioni allo Scorrimento */
        .scroll-animate {
            opacity: 0;
            transform: translateY(30px);
@@ -93,7 +92,7 @@
            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
            object-fit: cover; object-position: center; opacity: 0;
            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-           z-index: 1; filter: brightness(0.5);
+           z-index: 1;
            transform: scale(1.1);
        }
        .slide.active {
@@ -118,7 +117,6 @@
        .initial-curtain-right { animation: open-initial-curtain-right 2s ease-out 0.5s forwards; }
 
        /* --- Stili Componenti Migliorati --- */
-       /* Linea separatrice con i nuovi colori */
        .section-title::after { 
             content: ''; 
             display: block; 
@@ -126,7 +124,7 @@
             height: 4px; 
             margin: 1rem auto 0; 
             border-radius: 2px; 
-            background: linear-gradient(90deg, #22c55e, #3b82f6, #d946ef, #facc15); /* Verde, Blu, Magenta, Giallo */
+            background: linear-gradient(90deg, #22c55e, #3b82f6, #d946ef, #facc15);
        }
        .service-card { 
             transition: transform 0.3s, box-shadow 0.3s; 
@@ -134,7 +132,7 @@
        }
        .service-card:hover { 
             transform: translateY(-5px);
-            box-shadow: 0 0 30px -5px rgba(59, 130, 246, 0.3); /* Ombra Blu */
+            box-shadow: 0 0 30px -5px rgba(59, 130, 246, 0.3);
        }
        .service-submenu {
             max-height: 0;
@@ -142,7 +140,7 @@
             transition: max-height 0.5s ease-in-out, margin-top 0.5s ease-in-out;
        }
        .service-card.open .service-submenu {
-            max-height: 500px; /* Valore alto per permettere l'espansione */
+            max-height: 500px;
             margin-top: 1rem;
        }
        .service-card.open .arrow-icon {
@@ -160,11 +158,11 @@
 
        /* Stili Modulo Contatti */
        .form-input {
-            background-color: #1f2937; /* Grigio scuro per i campi */
+            background-color: #1f2937;
             border: 1px solid #374151;
        }
        .form-input:focus {
-            --tw-ring-color: #3b82f6; /* Blu */
+            --tw-ring-color: #3b82f6;
        }
        .form-radio-label {
             border: 1px solid #374151;
@@ -205,12 +203,15 @@
                </header>
                <main class="flex-grow flex items-center justify-center text-center">
                    <div class="container mx-auto px-4">
-                       <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 text-white scroll-animate">Precisione. Colore. Innovazione.</h2>
-                       <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 scroll-animate" style="transition-delay: 150ms;">Soluzioni di etichettatura che lasciano il segno.</p>
-                       <a href="#catalog" class="nav-link mt-8 inline-block bg-brand-yellow text-brand-dark font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/30 scroll-animate" style="transition-delay: 300ms;">Sfoglia il Catalogo</a>
+                        <!-- Contenitore per il testo dell'hero section per controllarne la visibilità -->
+                       <div id="hero-content" class="transition-opacity duration-1000 ease-in-out opacity-0">
+                           <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 text-white scroll-animate">Precisione. Colore. Innovazione.</h2>
+                           <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 scroll-animate" style="transition-delay: 150ms;">Soluzioni di etichettatura che lasciano il segno.</p>
+                           <a href="#catalog" class="nav-link mt-8 inline-block bg-brand-yellow text-brand-dark font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/30 scroll-animate" style="transition-delay: 300ms;">Sfoglia il Catalogo</a>
+                       </div>
                    </div>
                </main>
-           </div>
+                </div>
            <div id="initial-curtain" class="absolute inset-0 z-50 flex pointer-events-none"><div class="initial-curtain-left w-1/2 h-full bg-brand-dark"></div><div class="initial-curtain-right w-1/2 h-full bg-brand-dark"></div></div>
        </div>
 
@@ -221,14 +222,11 @@
             </p>
            </div></section>
            
-           <!-- SEZIONE SERVIZI AGGIORNATA CON ICONE PNG -->
            <section id="services" class="py-20 md:py-32 bg-black bg-opacity-20"><div class="container mx-auto px-6 text-center"><h2 class="section-title text-4xl font-bold mb-16 scroll-animate">I Nostri Servizi</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                
-               <!-- Servizio 1: Etichette Personalizzate -->
                <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate">
                     <div class="flex flex-col items-center">
                         <div class="mb-4 inline-block p-4 rounded-full bg-brand-green bg-opacity-10">
-                            <!-- ICONA MODIFICATA -->
                             <img src="/icons /factory.png" alt="Icona Rullo Etichette" class="w-10 h-10">
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Etichette Personalizzate</h3>
@@ -244,11 +242,9 @@
                         </ul>
                     </div>
                </div>
-                 <!-- Servizio 2: Etichette Neutre -->
                <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate" style="transition-delay: 100ms;">
                     <div class="flex flex-col items-center">
                         <div class="mb-4 inline-block p-4 rounded-full bg-brand-yellow bg-opacity-10">
-                           <!-- ICONA MODIFICATA -->
                            <img src="/icons /price-tag.png" alt="Icona Etichette" class="w-10 h-10">
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Etichette Neutre</h3>
@@ -264,11 +260,9 @@
                         </ul>
                     </div>
                </div>
- <!-- Servizio 3: Shoppers Personalizzate -->
                <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate" style="transition-delay: 200ms;">
                     <div class="flex flex-col items-center">
                         <div class="mb-4 inline-block p-4 rounded-full bg-brand-magenta bg-opacity-10">
-                            <!-- ICONA MODIFICATA -->
                             <img src="/icons /shopping-bag (1).png" alt="Icona Borsa Shopping" class="w-10 h-10">
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Shoppers Personalizzate</h3>
@@ -285,11 +279,9 @@
                     </div>
                </div>
                
-               <!-- Servizio 4: Consulenza -->
                <div class="service-card bg-brand-dark p-8 rounded-lg border border-gray-800 scroll-animate" style="transition-delay: 300ms;">
                     <div class="flex flex-col items-center">
                         <div class="mb-4 inline-block p-4 rounded-full bg-gray-500 bg-opacity-10">
-                            <!-- ICONA MODIFICATA -->
                             <img src="/icons /chat.png" alt="Icona Consulenza" class="w-10 h-10">
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Consulenza</h3>
@@ -308,7 +300,6 @@
 
            </div></div></section>
 
-           <!-- MODULO CONTATTI AGGIORNATO -->
            <section id="contact" class="py-20 md:py-32 bg-black bg-opacity-20"><div class="container mx-auto px-6"><div class="text-center"><h2 class="section-title text-4xl font-bold mb-16 scroll-animate">Parliamo del tuo Progetto</h2></div><div class="max-w-3xl mx-auto scroll-animate"><form action="#" method="POST" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div><input type="text" name="name" placeholder="Il tuo nome*" required class="form-input w-full p-4 rounded-lg focus:ring-2 outline-none transition-all"></div>
@@ -321,7 +312,6 @@
                 
                 <div><textarea name="message" rows="6" placeholder="Come possiamo aiutarti?*" required class="form-input w-full p-4 rounded-lg focus:ring-2 outline-none transition-all"></textarea></div>
                 
-                <!-- Preferenza di contatto -->
                 <fieldset>
                     <legend class="text-lg font-semibold mb-4 text-center">Quando preferisci essere ricontattato?</legend>
                     <div class="flex justify-center gap-4">
@@ -348,7 +338,7 @@
                    <button class="filter-btn py-2 px-4 rounded-lg border border-gray-600 transition-all duration-300 hover:bg-brand-blue hover:text-white" data-filter="meccanica">Meccanica</button>
                    <button class="filter-btn py-2 px-4 rounded-lg border border-gray-600 transition-all duration-300 hover:bg-brand-yellow hover:text-brand-dark" data-filter="cosmetica">Cosmetica</button>
                </div>
-               <div id="gallery" class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <div id="gallery" class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                    <div class="gallery-item group" data-category="beverage" data-title="Etichetta Vino Pregiato" data-img="https://images.unsplash.com/photo-1617886322207-6f504e74722a?q=80&w=1200&auto=format&fit=crop" data-desc="Etichetta premium per una linea di vini di lusso, realizzata con stampa a caldo e dettagli in rilievo per un'esperienza tattile unica." data-specs="Materiale: Carta Cotone, Finitura: Stampa a caldo oro, Adesivo: Permanente per vetro">
                        <img src="https://images.unsplash.com/photo-1617886322207-6f504e74722a?q=80&w=800&auto=format&fit=crop" alt="Etichetta su bottiglia di vino" class="w-full h-full object-cover rounded-lg"><div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><h3 class="text-xl font-bold text-white">Vedi Dettagli</h3></div></div>
                    <div class="gallery-item group" data-category="meccanica" data-title="Marcatura Laser Componenti" data-img="https://images.unsplash.com/photo-1599643477891-554b03943d0f?q=80&w=1200&auto=format&fit=crop" data-desc="Marcatura laser ad alta precisione di codici seriali e QR code su componenti meccanici in acciaio. Garantisce tracciabilità e resistenza a oli e alte temperature." data-specs="Tecnologia: Laser a Fibra, Materiale: Acciaio Inox 316, Profondità: 0.02mm">
@@ -378,6 +368,7 @@
                main: document.getElementById('main-content'),
                catalog: document.getElementById('catalog-page'),
                footer: document.getElementById('footer'),
+               heroContent: document.getElementById('hero-content'), // Elemento hero-content aggiunto
                mobileMenu: {
                    panel: document.getElementById('mobile-menu'),
                    button: document.getElementById('mobile-menu-button'),
@@ -417,7 +408,6 @@
            document.querySelectorAll('.scroll-animate').forEach(el => {
                observer.observe(el);
            });
-           
            app.serviceCards.forEach(card => {
                card.addEventListener('click', () => {
                     app.serviceCards.forEach(otherCard => {
@@ -427,6 +417,13 @@
                     });
                     card.classList.toggle('open');
                });
+           });
+
+           // --- LOGICA SLIDESHOW MODIFICATA ---
+
+           // Imposta la luminosità iniziale per ogni slide
+           app.slideshow.slides.forEach((slide, index) => {
+               slide.style.filter = index === 0 ? 'brightness(1)' : 'brightness(0.5)';
            });
 
            function startSlideshow() {
@@ -440,11 +437,24 @@
                        slides[currentIndex].classList.remove('active');
                        slides[nextIndex].classList.add('active');
                        app.slideshow.currentIndex = nextIndex;
+
+                       // Gestisce la visibilità del testo in base all'indice della slide
+                       if (nextIndex > 0) {
+                           // Se non è la prima slide, mostra il testo
+                           app.heroContent.classList.remove('opacity-0');
+                           app.heroContent.classList.add('opacity-100');
+                       } else {
+                           // Se si torna alla prima slide, nascondi il testo
+                           app.heroContent.classList.remove('opacity-100');
+                           app.heroContent.classList.add('opacity-0');
+                       }
+                       
                        curtain.classList.remove('closing');
                    }, 1000);
-               }, 9000);
+               }, 7000);
            }
            setTimeout(startSlideshow, 2500);
+           // --- FINE LOGICA SLIDESHOW MODIFICATA ---
 
            function toggleMobileMenu() {
                const { panel, openIcon, closeIcon } = app.mobileMenu;
